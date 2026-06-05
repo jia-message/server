@@ -125,5 +125,14 @@ func (s *SetupService) Setup(req SetupRequest) error {
 	return nil
 }
 
+func (s *SetupService) GetRegistrationMode() string {
+	var mode string
+	err := s.settingsRepo.Get("registration.mode", &mode)
+	if err != nil {
+		return "open" // default fallback
+	}
+	return mode
+}
+
 // Global hook to dynamically reload services after setting changes
 var InitializeDynamicServices = func() {}

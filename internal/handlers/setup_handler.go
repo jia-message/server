@@ -17,8 +17,13 @@ func NewSetupHandler(setupService *services.SetupService) *SetupHandler {
 
 func (h *SetupHandler) GetStatus(c fiber.Ctx) error {
 	completed := h.setupService.IsSetupCompleted()
+	mode := "open"
+	if completed {
+		mode = h.setupService.GetRegistrationMode()
+	}
 	return c.JSON(fiber.Map{
 		"setup_completed": completed,
+		"registration_mode": mode,
 	})
 }
 
